@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/117999-045780ced38306d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/117999-4a5f70dd55e894d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/5835116-1334685bb89094f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-11-06T10:46:39.000Z">
+<meta property="og:updated_time" content="2017-11-06T10:49:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS布局与Masnory使用实践">
 <meta name="twitter:description" content="前言UI布局对于iOS开发者来说并不陌生，在iOS6之前，大家都是通过UI控件的Frame属性和Autoresizing Mask来进行UI布局的（简称为手动布局）。AutoLayout则是苹果公司在iOS6推出的一种基于约束的，描述性的布局系统（简称为自动布局），这里主要从四个方面来阐述iOS布局及实践。  手动布局和自动布局 AutoLayout原理 AutoLayout的性能 Masnory">
@@ -379,7 +379,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,305
+                  3,306
                 </span>
               
 
@@ -454,7 +454,7 @@
 <blockquote>
 <p><code>AutoLayout</code>的原理就是对线性方程组或者不等式的求解，最终使用<code>frame</code>来绘制视图。  </p>
 </blockquote>
-<h6 id="AutoLayout的性能"><a href="#AutoLayout的性能" class="headerlink" title="AutoLayout的性能"></a><code>AutoLayout</code>的性能</h6><p>在使用 <code>Auto Layout</code> 进行布局时，可以指定一系列的约束，比如视图的高度、宽度等等。而每一个约束其实都是一个简单的线性等式或不等式，整个界面上的所有约束在一起就明确地（没有冲突）定义了整个系统的布局。</p>
+<h5 id="AutoLayout的性能"><a href="#AutoLayout的性能" class="headerlink" title="AutoLayout的性能"></a><code>AutoLayout</code>的性能</h5><p>在使用 <code>Auto Layout</code> 进行布局时，可以指定一系列的约束，比如视图的高度、宽度等等。而每一个约束其实都是一个简单的线性等式或不等式，整个界面上的所有约束在一起就明确地（没有冲突）定义了整个系统的布局。</p>
 <blockquote>
 <p>在涉及冲突发生时，<code>AutoLayout</code> 会尝试 <code>break</code> 一些优先级低的约束，尽量满足最多并且优先级最高的约束。</p>
 </blockquote>
@@ -497,22 +497,7 @@
 <li><p>#####case 4 给同一个属性添加多重约束，实现复杂关系</p>
 </li>
 </ul>
-<pre><code class="objc">
-- (<span class="keyword">void</span>)layoutPageSubviews {
-
-    [<span class="keyword">self</span>.greenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(<span class="keyword">self</span>.containerView);
-        make.right.lessThanOrEqualTo(<span class="keyword">self</span>.containerView);
-        make.left.greaterThanOrEqualTo(<span class="keyword">self</span>.containerView.mas_right).multipliedBy((<span class="built_in">CGFloat</span>)(<span class="number">1.0</span>f / <span class="number">3.0</span>f));
-        <span class="keyword">for</span> (<span class="built_in">UILabel</span> *label <span class="keyword">in</span> <span class="keyword">self</span>.leftLabels) {
-            make.left.greaterThanOrEqualTo(label.mas_right).offset(<span class="number">8</span>);
-        }
-    }];
-
-    [<span class="keyword">self</span>.greenLabel setContentCompressionResistancePriority:<span class="built_in">UILayoutPriorityRequired</span> forAxis:<span class="built_in">UILayoutConstraintAxisHorizontal</span>];
-}
-</code></pre>
-
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- (<span class="keyword">void</span>)layoutPageSubviews &#123;</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span>.greenLabel mas_makeConstraints:^(MASConstraintMaker *make) &#123;</div><div class="line">        make.centerY.equalTo(<span class="keyword">self</span>.containerView);</div><div class="line">        make.right.lessThanOrEqualTo(<span class="keyword">self</span>.containerView);</div><div class="line">        make.left.greaterThanOrEqualTo(<span class="keyword">self</span>.containerView.mas_right).multipliedBy((<span class="built_in">CGFloat</span>)(<span class="number">1.0</span>f / <span class="number">3.0</span>f));</div><div class="line">        <span class="keyword">for</span> (<span class="built_in">UILabel</span> *label <span class="keyword">in</span> <span class="keyword">self</span>.leftLabels) &#123;</div><div class="line">            make.left.greaterThanOrEqualTo(label.mas_right).offset(<span class="number">8</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line">    </div><div class="line">    [<span class="keyword">self</span>.greenLabel setContentCompressionResistancePriority:<span class="built_in">UILayoutPriorityRequired</span> forAxis:<span class="built_in">UILayoutConstraintAxisHorizontal</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -708,7 +693,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#手动布局和自动布局"><span class="nav-number">2.</span> <span class="nav-text">手动布局和自动布局</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AutoLayout的原理"><span class="nav-number">3.</span> <span class="nav-text">AutoLayout的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#AutoLayout的性能"><span class="nav-number">3.1.</span> <span class="nav-text">AutoLayout的性能</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Masnory的使用"><span class="nav-number">4.</span> <span class="nav-text">Masnory的使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#手动布局和自动布局"><span class="nav-number">2.</span> <span class="nav-text">手动布局和自动布局</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AutoLayout的原理"><span class="nav-number">3.</span> <span class="nav-text">AutoLayout的原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AutoLayout的性能"><span class="nav-number">4.</span> <span class="nav-text">AutoLayout的性能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Masnory的使用"><span class="nav-number">5.</span> <span class="nav-text">Masnory的使用</span></a></li></ol></div>
             
 
           </div>
